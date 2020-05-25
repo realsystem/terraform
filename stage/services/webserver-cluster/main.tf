@@ -1,12 +1,6 @@
-variable "server_port" {
-	description = "The port for Web server"
-	type = number
-	default = 8080
-}
-
 provider "aws" {
 	version = "~> 2.63"
-    region = "us-west-1"
+    region = "us-east-2"
 }
 
 resource "aws_security_group" "instance" {
@@ -35,11 +29,6 @@ resource "aws_security_group" "alb" {
 	}
 }
 
-output "alb_dns_name" {
-	description = "The domain name of the load balancer"
-	value = aws_lb.my_lb.dns_name
-}
-
 data "aws_vpc" "default" {
 	default = true
 }
@@ -49,7 +38,7 @@ data "aws_subnet_ids" "default" {
 }
 
 resource "aws_launch_configuration" "my_asg_template" {
-	image_id = "ami-075fd582acf0c0128"
+	image_id = "ami-0e84e211558a022c0"
 	instance_type = "t2.micro"
 	lifecycle {
 		create_before_destroy = true
@@ -65,8 +54,9 @@ resource "aws_launch_configuration" "my_asg_template" {
 resource "aws_autoscaling_group" "my_asg" {
 	launch_configuration = aws_launch_configuration.my_asg_template.name
 	vpc_zone_identifier = data.aws_subnet_ids.default.ids
-	min_size = 2
-	max_size = 10
+	min_size = 1
+	max_size = 5
+	desired_capacity = 1
 	target_group_arns = [aws_lb_target_group.asg_target.arn]
 	health_check_type = "ELB"
 	tag {
@@ -124,5 +114,15 @@ resource "aws_lb_listener_rule" "asg" {
 	action {
 		type = "forward"
 		target_group_arn = aws_lb_target_group.asg_target.arn
+	}
+}
+
+terraform {
+	backend "s3" {
+		bucket = "rs-terraform-up-and-running-state"
+		key = "stage/services/webserver-cluster/terraform.tfstate"
+		region = "us-east-2"
+		dynamodb_table = "rs-terraform-up-and-running-locks"
+		encrypt = true
 	}
 }
