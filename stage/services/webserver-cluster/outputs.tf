@@ -1,4 +1,4 @@
-output "alb_dns_name" {
-	description = "The domain name of the load balancer"
-	value = aws_lb.my_lb.dns_name
+output "stage_site_dns_name" {
+	description = "The domain name of the staging server"
+	value = module.webserver_cluster.alb_dns_name
 }

@@ -7,6 +7,7 @@ resource "aws_db_instance" "my_db" {
 	engine = "mysql"
 	allocated_storage = 10
 	instance_class = "db.t2.micro"
+	skip_final_snapshot = true
 	name = "example_db"
 	username = "admin"
 	password = var.db_password
@@ -20,7 +21,7 @@ resource "aws_db_instance" "my_db" {
 terraform {
 	backend "s3" {
 		bucket = "rs-terraform-up-and-running-state"
-		key = "stage/datasources/mysql/terraform.tfstate"
+		key = "stage/data-stores/mysql/terraform.tfstate"
 		region = "us-east-2"
 		dynamodb_table = "rs-terraform-up-and-running-locks"
 		encrypt = true
