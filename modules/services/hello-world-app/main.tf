@@ -74,7 +74,7 @@ module "asg" {
 	max_size = var.max_size
 	enable_autoscaling = var.enable_autoscaling
 	subnet_ids = data.aws_subnet_ids.default.ids
-	target_group_arns = [aws_lb_target_group.asg.arn]
+	target_group_arns = [aws_lb_target_group.asg_target.arn]
 	health_check_type = "ELB"
 	custom_tags = var.custom_tags
 }
@@ -82,4 +82,5 @@ module "asg" {
 module "alb" {
 	source = "../../networking/alb"
 	alb_name = "hello-world-${var.environment}"
+	subnet_ids = data.aws_subnet_ids.default.ids
 }
