@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "hello_world_app" {
-	source = "git@github.com:realsystem/terraform.git//modules/services/hello-world-app?ref=v0.0.1"
+	source = "git@github.com:realsystem/terraform.git//modules/services/hello-world-app?ref=v0.0.2"
 	cluster_name = "webservers-stage"
 	environment = "stage"
 	instance_type = "t2.micro"
