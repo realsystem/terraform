@@ -1,22 +1,16 @@
 provider "aws" {
+	version = "~> 2.63"
 	region = "us-east-2"
 }
 
-resource "aws_db_instance" "my_db" {
-	identifier_prefix = "terraform-up-and-running"
-	engine = "mysql"
-	allocated_storage = 10
-	instance_class = "db.t2.micro"
-	skip_final_snapshot = true
-	name = "example_db"
-	username = "admin"
-	password = var.db_password
-	//password = data.aws_secretsmanager_secret_version.db_password.secret_string
+module "webserver_db" {
+	source = "../../../modules/data-stores/mysql"
+	cluster_name = "webservers-stage"
+	db_name = "test_db"
+	db_username = "admin"
+	db_password = var.db_password
+	db_instance_class = "db.t2.micro"
 }
-
-/*data "aws_secretsmanager_secret_version" "db_password" {
-	secret_id = "mysql-master-password-stage"
-}*/
 
 terraform {
 	backend "s3" {

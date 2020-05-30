@@ -1,9 +1,9 @@
 output "address" {
 	description = "Connect to the database at this endpoint"
-	value = aws_db_instance.my_db.address
+	value = module.webserver_db.my_db_address
 }
 
 output "port" {
 	description = "The port the database is listening on"
-	value = aws_db_instance.my_db.port
+	value = module.webserver_db.my_db_port
 }

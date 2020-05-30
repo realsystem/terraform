@@ -1,14 +1,3 @@
-variable "server_port" {
-	description = "The port for Web server"
-	type = number
-	default = 8080
-}
-
-variable "cluster_name" {
-	description = "The name to use for all the cluster resources"
-	type = string
-}
-
 variable "db_remote_state_bucket" {
 	description = "The name of the S3 bucket for the database's remote state"
 	type = string
@@ -19,3 +8,7 @@ variable "db_remote_state_key" {
 	type = string
 }
 
+variable "environment" {
+	description = "The name of the environment we're deploying to"
+	type = string
+}
