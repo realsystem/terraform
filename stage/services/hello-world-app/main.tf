@@ -4,8 +4,9 @@ provider "aws" {
 }
 
 module "hello_world_app" {
-	source = "../../../modules/services/webserver-cluster"
+	source = "git@github.com:realsystem/terraform.git//modules/services/hello-world-app?ref=v0.0.1"
 	cluster_name = "webservers-stage"
+	environment = "stage"
 	instance_type = "t2.micro"
 	min_size = 1
 	max_size = 5
