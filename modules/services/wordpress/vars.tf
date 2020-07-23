@@ -67,5 +67,43 @@ variable "instance_type" {
 variable "server_port" {
 	description = "The port for Web server"
 	type = number
-	default = 8080
+	default = 80
+}
+
+variable "ssl_policy" {
+	description = "SSL policy for ALB listener"
+}
+
+variable "certificate_arn" {
+	description = "SSL certificate ARN for ALB listener"
+}
+
+variable "key_name" {
+	description = "The name of the key to use for instance access"
+	type = string
+}
+
+variable "health_check_type" {
+	description = "Type of the health check: EC2 or ELB"
+	type = string
+}
+
+variable "wp_db_name" {
+	description = "The database name for wordpress"
+	type = string
+}
+
+variable "wp_db_passwd" {
+	description = "The database password for wordpress"
+	type = string
+}
+
+variable "wp_db_user" {
+	description = "The database user name for wordpress"
+	type = string
+}
+
+variable "wp_db_user_passwd" {
+	description = "The database user password for wordpress"
+	type = string
 }

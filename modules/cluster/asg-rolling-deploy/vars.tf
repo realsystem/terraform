@@ -1,7 +1,7 @@
 variable "server_port" {
 	description = "The port for Web server"
 	type = number
-	default = 8080
+	default = 80
 }
 
 variable "cluster_name" {
@@ -76,4 +76,14 @@ variable "user_data" {
 	description = "The User Data script to tun in each Instance at boot"
 	type = string
 	default = ""
+}
+
+variable "key_name" {
+	description = "The name of the key to use for instance access"
+	type = string
+}
+
+variable "alb_security_group_id" {
+	description = "Security group ID for the ALB"
+	type = string
 }
