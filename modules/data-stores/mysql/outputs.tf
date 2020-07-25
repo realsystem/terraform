@@ -7,3 +7,13 @@ output "my_db_port" {
 	description = "The port the database is listening on"
 	value = aws_db_instance.my_db.port
 }
+
+output "my_db_name" {
+	description = "The name of the database"
+	value = aws_db_instance.my_db.name
+}
+
+output "my_db_username" {
+	description = "The name of the user to access database"
+	value = aws_db_instance.my_db.username
+}

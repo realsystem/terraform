@@ -27,6 +27,7 @@ module "wp" {
   min_size               = 1
   max_size               = 1
   desired_capacity       = 1
+  db_password            = var.db_password
   db_remote_state_bucket = "rs-terraform-up-and-running-state"
   db_remote_state_key    = "stage/data-stores/mysql/terraform.tfstate"
   key_name               = "myvm"

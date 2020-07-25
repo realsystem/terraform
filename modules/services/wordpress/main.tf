@@ -1,5 +1,10 @@
 locals {
 	http_protocol = "HTTP"
+	tcp_protocol = "TCP"
+	db_port = 3306
+	any_port = 0
+	any_protocol = -1
+	all_ips = ["0.0.0.0/0"]
 }
 
 data "aws_vpc" "default" {
@@ -8,6 +13,37 @@ data "aws_vpc" "default" {
 
 data "aws_subnet_ids" "default" {
 	vpc_id = data.aws_vpc.default.id
+}
+
+resource "aws_default_security_group" "default" {
+    vpc_id = data.aws_vpc.default.id
+}
+
+resource "aws_security_group_rule" "allow_all_inbound" {
+	type = "ingress"
+	security_group_id = aws_default_security_group.default.id
+	from_port = local.db_port
+	to_port = local.db_port
+	protocol = local.tcp_protocol
+	source_security_group_id = aws_default_security_group.default.id
+}
+
+resource "aws_security_group_rule" "allow_instance_inbound" {
+	type = "ingress"
+	security_group_id = aws_default_security_group.default.id
+	from_port = local.db_port
+	to_port = local.db_port
+	protocol = local.tcp_protocol
+	source_security_group_id = module.asg.instance_security_group_id
+}
+
+resource "aws_security_group_rule" "allow_all_outbound" {
+	type = "egress"
+	security_group_id = aws_default_security_group.default.id
+	from_port = local.any_port
+	to_port = local.any_port
+	protocol = local.any_protocol
+	cidr_blocks = local.all_ips
 }
 
 data "terraform_remote_state" "my_db_state" {
@@ -24,6 +60,11 @@ data "template_file" "user_data" {
 	vars = {
 		server_port = var.server_port
 		efs_data = module.efs_data.efs_mnt_dns
+		db_address = data.terraform_remote_state.my_db_state.outputs.address
+        db_port = data.terraform_remote_state.my_db_state.outputs.port
+        db_password = var.db_password
+        db_name = data.terraform_remote_state.my_db_state.outputs.db_name
+        db_username = data.terraform_remote_state.my_db_state.outputs.db_username
 	}
 }
 

@@ -2,15 +2,15 @@
 
 set -ex
 
-export MYSQL_ROOT_PASSWORD="wordpress"
-export MYSQL_DATABASE="wordpress"
-export MYSQL_USER="wordpress"
-export MYSQL_PASSWORD="wordpress"
-export WORDPRESS_DB_USER="wordpress"
-export WORDPRESS_DB_PASSWORD="wordpress"
-export WORDPRESS_DB_NAME="wordpress"
+export WORDPRESS_DB_HOST="${db_address}:${db_port}"
+export WORDPRESS_DB_PASSWORD=${db_password}
+export WORDPRESS_DB_USER=${db_username}
+export WORDPRESS_DB_NAME=${db_name}
+
 export EFS_MOUNT="/mnt/efs"
 export WORDPRESS_DATA="$${EFS_MOUNT}/wp"
+
+export WEBSERVER_PORT=${server_port}
 
 apt update
 apt -y install vim git docker-compose nfs-common

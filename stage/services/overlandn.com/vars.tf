@@ -3,3 +3,8 @@ variable "server_port" {
   type        = number
   default     = 80
 }
+
+variable "db_password" {
+	description = "DB password"
+	type = string
+}

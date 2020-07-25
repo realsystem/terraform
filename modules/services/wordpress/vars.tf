@@ -81,3 +81,8 @@ variable "health_check_type" {
 	description = "Type of the health check: EC2 or ELB"
 	type = string
 }
+
+variable "db_password" {
+	description = "DB password"
+	type = string
+}

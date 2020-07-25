@@ -6,8 +6,8 @@ provider "aws" {
 module "webserver_db" {
 	source = "../../../modules/data-stores/mysql"
 	cluster_name = "webservers-stage"
-	db_name = "test_db"
-	db_username = "admin"
+	db_name = "wordpress"
+	db_username = "wordpress"
 	db_password = var.db_password
 	db_instance_class = "db.t2.micro"
 }
