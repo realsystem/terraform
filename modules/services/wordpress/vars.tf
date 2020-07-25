@@ -13,12 +13,6 @@ variable "environment" {
 	type = string
 }
 
-variable "server_text" {
-	description = "The text the webserver should return"
-	type = string
-	default = "Hello, world"
-}
-
 variable "custom_tags" {
 	description = "Custom tags to set on the Instances in the ASG"
 	type = map(string)
@@ -85,25 +79,5 @@ variable "key_name" {
 
 variable "health_check_type" {
 	description = "Type of the health check: EC2 or ELB"
-	type = string
-}
-
-variable "wp_db_name" {
-	description = "The database name for wordpress"
-	type = string
-}
-
-variable "wp_db_passwd" {
-	description = "The database password for wordpress"
-	type = string
-}
-
-variable "wp_db_user" {
-	description = "The database user name for wordpress"
-	type = string
-}
-
-variable "wp_db_user_passwd" {
-	description = "The database user password for wordpress"
 	type = string
 }

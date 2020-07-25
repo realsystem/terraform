@@ -23,12 +23,7 @@ data "template_file" "user_data" {
 	template = file("${path.module}/user-data.sh")
 	vars = {
 		server_port = var.server_port
-		server_text = var.server_text
 		efs_data = module.efs_data.efs_mnt_dns
-		wp_db_name = var.wp_db_name
-		wp_db_passwd = var.wp_db_passwd
-		wp_db_user = var.wp_db_user
-		wp_db_user_passwd = var.wp_db_user_passwd
 	}
 }
 
@@ -41,7 +36,7 @@ resource "aws_lb_target_group" "asg_target" {
 		path = "/"
 		protocol = local.http_protocol
 		matcher = "200,301,302"
-		interval = 15
+		interval = 30
 		timeout = 3
 		healthy_threshold = 2
 		unhealthy_threshold = 2

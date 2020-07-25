@@ -100,9 +100,9 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
 	dimensions = {
 		AutoScalingGroupName = aws_autoscaling_group.my_asg.name
 	}
-	alarm_actions = [
-        "${aws_autoscaling_policy.asg-scale-up.arn}"
-    ]
+	#alarm_actions = [
+    #    "${aws_autoscaling_policy.asg-scale-up.arn}"
+    #]
 	comparison_operator = "GreaterThanThreshold"
 	evaluation_periods = 1
 	period = 300
@@ -119,13 +119,28 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu_credit_balance" {
 	dimensions = {
 		AutoScalingGroup = aws_autoscaling_group.my_asg.name
 	}
-	alarm_actions = [
-        "${aws_autoscaling_policy.asg-scale-down.arn}"
-    ]
+	#alarm_actions = [
+    #    "${aws_autoscaling_policy.asg-scale-down.arn}"
+    #]
 	comparison_operator = "LessThanThreshold"
 	evaluation_periods = 1
 	period = 300
 	statistic = "Minimum"
 	threshold = 50
 	unit = "Count"
+}
+
+resource "aws_autoscaling_notification" "scale_notifications" {
+  group_names = [
+    aws_autoscaling_group.my_asg.name,
+  ]
+
+  notifications = [
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE",
+    "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+    "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
+  ]
+
+  topic_arn = "arn:aws:sns:us-east-2:243593776856:ASG-Wordpress"
 }

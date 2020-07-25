@@ -49,12 +49,6 @@ variable "ami" {
 	default = "ami-0e84e211558a022c0"
 }
 
-variable "server_text" {
-	description = "The text the webserver should return"
-	type = string
-	default = "Hello, world"
-}
-
 variable "subnet_ids" {
 	description = "The subnet IDs to deploy to"
 	type = list(string)
