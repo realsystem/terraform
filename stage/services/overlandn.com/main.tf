@@ -25,7 +25,7 @@ module "wp" {
   environment            = "stage"
   instance_type          = "t2.micro"
   min_size               = 1
-  max_size               = 1
+  max_size               = 2
   desired_capacity       = 1
   db_password            = var.db_password
   db_remote_state_bucket = "rs-terraform-up-and-running-state"
@@ -36,7 +36,6 @@ module "wp" {
     Owner      = "RS"
     DeployedBy = "Terraform"
   }
-  enable_autoscaling = false
 
   ami                = data.aws_ami.ubuntu.id
   server_port        = 80

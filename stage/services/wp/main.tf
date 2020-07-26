@@ -17,7 +17,6 @@ module "wp" {
     Owner      = "Team A"
     DeployedBy = "Terraform"
   }
-  enable_autoscaling = true
   ami                = "ami-09bdb0085838ef569"
   server_text        = "Overlanding Project Lab v1"
 }

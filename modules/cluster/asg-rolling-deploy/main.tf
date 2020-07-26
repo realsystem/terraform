@@ -100,9 +100,9 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
 	dimensions = {
 		AutoScalingGroupName = aws_autoscaling_group.my_asg.name
 	}
-	#alarm_actions = [
-    #    "${aws_autoscaling_policy.asg-scale-up.arn}"
-    #]
+	alarm_actions = [
+        "${aws_autoscaling_policy.asg-scale-up.arn}"
+    ]
 	comparison_operator = "GreaterThanThreshold"
 	evaluation_periods = 1
 	period = 300
@@ -119,9 +119,9 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu_credit_balance" {
 	dimensions = {
 		AutoScalingGroup = aws_autoscaling_group.my_asg.name
 	}
-	#alarm_actions = [
-    #    "${aws_autoscaling_policy.asg-scale-down.arn}"
-    #]
+	alarm_actions = [
+        "${aws_autoscaling_policy.asg-scale-down.arn}"
+    ]
 	comparison_operator = "LessThanThreshold"
 	evaluation_periods = 1
 	period = 300

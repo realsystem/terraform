@@ -18,7 +18,6 @@ module "asg" {
 	instance_type = "t2.micro"
 	min_size = 1
 	max_size = 1
-	enable_autoscaling = true
 	subnet_ids = data.aws_subnet_ids.default.ids
 	user_data = "echo test"
 }

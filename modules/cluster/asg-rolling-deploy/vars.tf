@@ -38,11 +38,6 @@ variable "custom_tags" {
 	default = {}
 }
 
-variable "enable_autoscaling" {
-	description = "If set to true enable autoscaling"
-	type = bool
-}
-
 variable "ami" {
 	description = "The AMI to run in the cluster"
 	type = string
