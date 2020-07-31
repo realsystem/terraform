@@ -17,3 +17,8 @@ output "my_db_username" {
 	description = "The name of the user to access database"
 	value = aws_db_instance.my_db.username
 }
+
+output "my_db_az" {
+	description = "The name of the AZ where database instance located"
+	value = aws_db_instance.my_db.availability_zone
+}

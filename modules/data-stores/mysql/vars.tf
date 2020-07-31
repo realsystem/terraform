@@ -28,3 +28,8 @@ variable "db_storage" {
 	type = number
 	default = 10
 }
+
+variable "db_az" {
+	description = "Mysql instance AZ"
+	type = string
+}

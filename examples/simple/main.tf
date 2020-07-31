@@ -16,6 +16,14 @@ locals {
 	server_text = "hello"
 }
 
+data "aws_vpc" "default" {
+	default = true
+}
+
+data "aws_subnet" "default" {
+	availability_zone = "us-west-1a"
+}
+
 resource "aws_security_group" "instance" {
 	name = "dev-instance"
 }

@@ -81,3 +81,8 @@ variable "db_password" {
 	description = "DB password"
 	type = string
 }
+
+variable "alarms_email" {
+	description = "Email for alarms"
+	type = string
+}

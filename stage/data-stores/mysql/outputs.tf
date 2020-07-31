@@ -17,3 +17,8 @@ output "db_username" {
 	description = "The name of the user to access database"
 	value = module.webserver_db.my_db_username
 }
+
+output "db_az" {
+	description = "Mysql instance AZ"
+	value = module.webserver_db.my_db_az
+}

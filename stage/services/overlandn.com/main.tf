@@ -41,6 +41,7 @@ module "wp" {
   server_port        = 80
   ssl_policy         = "ELBSecurityPolicy-2016-08"
   certificate_arn    = "arn:aws:acm:us-east-2:243593776856:certificate/5cef988b-bc15-4747-9a03-efb95cb0e374"
+  alarms_email       = "egorov.stanislav.vl@gmail.com"
 }
 
 terraform {

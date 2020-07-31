@@ -10,6 +10,7 @@ module "webserver_db" {
 	db_username = "wordpress"
 	db_password = var.db_password
 	db_instance_class = "db.t2.micro"
+	db_az = "us-east-2a"
 }
 
 terraform {

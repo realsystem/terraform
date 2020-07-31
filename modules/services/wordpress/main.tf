@@ -11,6 +11,12 @@ data "aws_vpc" "default" {
 	default = true
 }
 
+data "aws_subnet" "default" {
+	vpc_id = data.aws_vpc.default.id
+	# TODO
+	availability_zone = data.terraform_remote_state.my_db_state.outputs.db_az
+}
+
 data "aws_subnet_ids" "default" {
 	vpc_id = data.aws_vpc.default.id
 }
@@ -89,7 +95,7 @@ resource "aws_lb_listener_rule" "asg" {
 module "efs_data" {
 	source = "../../data-stores/efs"
 	instance_security_group_id = module.asg.instance_security_group_id
-	aws_subnets = data.aws_subnet_ids.default.ids
+	aws_subnets = [data.aws_subnet.default.id]
 	efs_name = "efs_data"
 }
 
@@ -102,7 +108,7 @@ module "asg" {
 	min_size = var.min_size
 	max_size = var.max_size
 	desired_capacity = var.desired_capacity
-	subnet_ids = data.aws_subnet_ids.default.ids
+	subnet_ids = [data.aws_subnet.default.id]
 	target_group_arns = [aws_lb_target_group.asg_target.arn]
 	health_check_type = var.health_check_type
 	custom_tags = var.custom_tags
@@ -116,4 +122,30 @@ module "alb" {
 	subnet_ids = data.aws_subnet_ids.default.ids
 	ssl_policy = var.ssl_policy
 	certificate_arn = var.certificate_arn
+}
+
+resource "aws_sns_topic" "alarm" {
+  name = "alarms-topic"
+  delivery_policy = <<EOF
+{
+  "http": {
+    "defaultHealthyRetryPolicy": {
+      "minDelayTarget": 20,
+      "maxDelayTarget": 20,
+      "numRetries": 3,
+      "numMaxDelayRetries": 0,
+      "numNoDelayRetries": 0,
+      "numMinDelayRetries": 0,
+      "backoffFunction": "linear"
+    },
+    "disableSubscriptionOverrides": false,
+    "defaultThrottlePolicy": {
+      "maxReceivesPerSecond": 1
+    }
+  }
+}
+EOF
+  provisioner "local-exec" {
+    command = "aws sns subscribe --topic-arn ${aws_sns_topic.alarm.arn} --protocol email --notification-endpoint ${var.alarms_email}"
+  }
 }
